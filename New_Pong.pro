@@ -21,6 +21,5 @@ HEADERS += \
 
 DISTFILES += \
     LICENSE.txt \
-    New_Pong.pro.user \
     README.md \
     game.config

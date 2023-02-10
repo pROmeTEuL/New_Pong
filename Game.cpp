@@ -92,7 +92,7 @@ void Game::input()
     while (m_window.pollEvent(event)) {
         if (event.type == Event::KeyPressed || event.type == Event::KeyReleased) {
             m_player->handleInput();
-            m_ball->handleInput(event, m_ball_in_air); /// it does nothing for now :)
+            m_ball->handleInput(event, m_ball_in_air);
             if ((event.key.code == Keyboard::P || event.key.code == Keyboard::Pause) && event.type == Event::KeyPressed)
                 m_paused = !m_paused;
             if ((event.key.code == Keyboard::Escape || event.key.code == Keyboard::Q) && event.type == Event::KeyPressed)
