@@ -1,5 +1,8 @@
 #include "Configuration.h"
 
+#include <iostream>
+#include <cstring>
+
 #define RESOLUTION_X "window_width"
 #define RESOLUTION_Y "window_height"
 #define WINDOW_MODE "window_mode"
@@ -8,11 +11,11 @@
 
 int transform_to_digits(char* str)
 {
-	int nr = 0;
+    int nr = 0, pozition = 1;
 	int len = strlen(str);
 	while (len) {
 		if (str[len - 1] != '-')
-			nr = nr * 10 + (str[len - 1] - '0');
+            nr = nr + (str[len - 1] - '0') * pozition, pozition *= 10;
 		else
 			nr *= -1;
 		--len;
@@ -26,43 +29,36 @@ bool Configuration::config(float& x, float& y, char* color, char* font, char* wi
 	strcpy(color, "undefined");
 	strcpy(font, "undefined");
 	strcpy(window_mode, "default");
-	try {
-		fin.open("game.config");
-	}
-	catch (std::error_code &e) {
-		std::cout << e << std::endl;
-		return false;
-	}
-
+    fin.open("game.config");
 	if (!fin.is_open()) {
 		return false;
 	}
 
 	char* category = new char[20];
 	while (fin.get(category, 20, '=')) {
-		if (strcmp(category, RESOLUTION_X)) {
+        if (strcmp(category, RESOLUTION_X) == 0) {
 			fin.getline(category, 20);
-			x = transform_to_digits(category);
+            x = transform_to_digits(category + 1);
 			continue;
 		}
-		if (strcmp(category, RESOLUTION_Y)) {
+        if (strcmp(category, RESOLUTION_Y) == 0) {
 			fin.getline(category, 20);
-			y = transform_to_digits(category);
+            y = transform_to_digits(category + 1);
 			continue;
 		}
-		if (strcmp(category, WINDOW_MODE)) {
+        if (strcmp(category, WINDOW_MODE) == 0) {
 			fin.getline(category, 20);
-			window_mode = category;
+            strcpy(window_mode, category + 1);
 			continue;
 		}
-		if (strcmp(category, COLOR)) {
+        if (strcmp(category, COLOR) == 0) {
 			fin.getline(category, 20);
-			color = category;
+            strcpy(color, category + 1);
 			continue;
 		}
-		if (strcmp(category, FONT)) {
+        if (strcmp(category, FONT) == 0) {
 			fin.getline(category, 20);
-			font = category;
+            strcpy(font, category + 1);
 		}
 	}
 	delete[] category;

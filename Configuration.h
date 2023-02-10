@@ -1,6 +1,5 @@
 #pragma once
 
-#include <iostream>
 #include <fstream>
 
 class Configuration
@@ -12,4 +11,3 @@ public:
 private:
 	std::ifstream fin;
 };
-
